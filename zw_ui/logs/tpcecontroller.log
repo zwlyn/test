@@ -1,0 +1,211 @@
+2019-10-18 14:44:02,485     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f4aefce74a8>
+2019-10-18 14:46:58,941     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f5b0582c4a8>
+2019-10-18 14:47:18,213     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f5b0582c588>
+2019-10-18 14:47:58,207     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f3db2afc4a8>
+2019-10-18 14:49:18,237     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f85d00e94a8>
+2019-10-18 14:50:46,456     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f29963c34a8>
+2019-10-18 14:50:59,788     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f3d5bfa74a8>
+2019-10-18 14:52:12,699     INFO [                  main.py                open    64] /home/zw/Desktop/workspace/test/zw_ui/main.py
+2019-10-18 14:52:12,700     INFO [                  main.py                open    65] All Files (*)
+2019-10-18 14:52:12,701     INFO [                  main.py                open    69] <PyQt5.QtCore.QTextStream object at 0x7fbae3d434a8>
+2019-10-18 14:53:41,795     INFO [                  main.py                open    64] /home/zw/Desktop/workspace/test/zw_ui/main.py
+2019-10-18 14:53:41,795     INFO [                  main.py                open    65] All Files (*)
+2019-10-18 14:53:41,796     INFO [                  main.py                open    69] <PyQt5.QtCore.QTextStream object at 0x7f3ef5eb04a8>
+2019-10-18 14:55:23,917     INFO [                  main.py                open    64] /home/zw/Desktop/workspace/test/zw_ui/main.py
+2019-10-18 14:55:23,917     INFO [                  main.py                open    65] All Files (*)
+2019-10-18 14:55:34,383     INFO [                  main.py                open    64] /home/zw/Desktop/workspace/test/zw_ui/main.py
+2019-10-18 14:55:34,384     INFO [                  main.py                open    65] All Files (*)
+2019-10-18 14:56:33,464     INFO [                  main.py                open    64] /home/zw/Desktop/workspace/test/zw_ui/main.py
+2019-10-18 14:56:33,465     INFO [                  main.py                open    65] All Files (*)
+2019-10-18 14:56:39,897     INFO [                  main.py                open    64] /home/zw/Desktop/workspace/test/zw_ui/logs/tpcecontroller.log
+2019-10-18 14:56:39,898     INFO [                  main.py                open    65] All Files (*)
+2019-10-18 14:59:25,970     INFO [                  main.py                open    64] /home/zw/Desktop/workspace/test/zw_ui/main.py
+2019-10-18 14:59:25,971     INFO [                  main.py                open    65] All Files (*)
+2019-10-18 14:59:25,971     INFO [                  main.py                open    69] <PyQt5.QtCore.QTextStream object at 0x7fce98f444a8>
+2019-10-18 15:01:16,474     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f80145914a8>
+2019-10-18 15:01:28,118     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f3e35d3f4a8>
+2019-10-18 15:01:39,188     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f3c8d6914a8>
+2019-10-18 15:02:00,550     INFO [                  main.py                open    67] <PyQt5.QtCore.QTextStream object at 0x7f3cf46784a8>
+2019-10-18 15:08:46,541     INFO [                  main.py                open    67] 
+2019-10-18 15:10:47,693     INFO [                  main.py                open    67] 
+2019-10-18 15:15:24,663     INFO [                  main.py                open    72] import sys
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from log import logger
+
+class Example(QFrame):
+    
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+        self.initConnect()
+        self.initData()
+
+    def initUI(self):
+        self.layout = QVBoxLayout()
+        self.textEdit = QTextEdit()
+
+        self.createActions()
+        self.createMenu()
+        self.layout.addWidget(self.textEdit)
+        self.statusBar()
+
+
+        self.setLayout(self.layout)
+        self.setGeometry(1000, 300, 800, 700)  # 设置几何形状 参数对应：在桌面的 x,y 和 UI宽，高
+
+
+    def initData(self):
+        pass
+
+    def initConnect(self):
+        pass
+
+
+    def createActions(self):
+        self.openAct = QAction('open',self, statusTip="Open an existing file",
+            triggered=self.open)
+
+        self.sayAct = QAction('say', self, triggered=self.say)
+
+        self.exitAct = QAction('exit', triggered=self.close)
+
+
+    def createMenu(self):
+        menu = QMenuBar()
+        self.fileMenu = menu.addMenu('&File')
+        self.fileMenu.addAction(self.openAct)
+        self.fileMenu.addAction(self.sayAct)
+        self.fileMenu.addAction(self.exitAct)
+
+        self.layout.addWidget(menu)
+
+
+    def statusBar(self):
+        self.statusBar = QStatusBar()
+        self.statusBar.showMessage('statusBar')
+        self.layout.addWidget(self.statusBar)
+
+
+    def open(self):
+        fileName, _ = QFileDialog.getOpenFileName(self)
+        if fileName:
+            file = QFile(fileName)      # 打开文件
+            if not file.open(QFile.ReadOnly):
+                QMessageBox.warning(self, "Codecs",
+                        "Cannot read file %s:\n%s" % (fileName, inFile.errorString()))
+                return
+
+            instr = QTextStream(file)   # 将文件中的str装入QTextStream object
+            logger.info(instr.readAll())
+
+            self.textEdit.setPlainText(instr.readAll())  # 将QTextStream object 中的str流输出到 textEdit
+
+
+
+
+    def say(self):
+        self.textEdit.append('Hello everyone!')
+
+
+if __name__ == '__main__':
+     
+     app = QApplication(sys.argv)
+     ex = Example()
+     ex.show()
+     sys.exit(app.exec_())
+2019-10-18 15:15:55,262     INFO [                  main.py                open    70] import sys
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from log import logger
+
+class Example(QFrame):
+    
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+        self.initConnect()
+        self.initData()
+
+    def initUI(self):
+        self.layout = QVBoxLayout()
+        self.textEdit = QTextEdit()
+
+        self.createActions()
+        self.createMenu()
+        self.layout.addWidget(self.textEdit)
+        self.statusBar()
+
+
+        self.setLayout(self.layout)
+        self.setGeometry(1000, 300, 800, 700)  # 设置几何形状 参数对应：在桌面的 x,y 和 UI宽，高
+
+
+    def initData(self):
+        pass
+
+    def initConnect(self):
+        pass
+
+
+    def createActions(self):
+        self.openAct = QAction('open',self, statusTip="Open an existing file",
+            triggered=self.open)
+
+        self.sayAct = QAction('say', self, triggered=self.say)
+
+        self.exitAct = QAction('exit', triggered=self.close)
+
+
+    def createMenu(self):
+        menu = QMenuBar()
+        self.fileMenu = menu.addMenu('&File')
+        self.fileMenu.addAction(self.openAct)
+        self.fileMenu.addAction(self.sayAct)
+        self.fileMenu.addAction(self.exitAct)
+
+        self.layout.addWidget(menu)
+
+
+    def statusBar(self):
+        self.statusBar = QStatusBar()
+        self.statusBar.showMessage('statusBar')
+        self.layout.addWidget(self.statusBar)
+
+
+    def open(self):
+        fileName, _ = QFileDialog.getOpenFileName(self)
+        if fileName:
+            file = QFile(fileName)      # 打开文件
+            file.open(QFile.ReadOnly)
+
+
+            instr = QTextStream(file)   # 将文件中的str装入QTextStream object
+            logger.info(instr.readAll())
+
+            self.textEdit.setPlainText(instr.readAll())  # 将QTextStream object 中的str流输出到 textEdit
+
+
+
+
+    def say(self):
+        self.textEdit.append('Hello everyone!')
+
+
+if __name__ == '__main__':
+     
+     app = QApplication(sys.argv)
+     ex = Example()
+     ex.show()
+     sys.exit(app.exec_())
+2019-10-18 15:31:41,928     INFO [                  main.py              saveAs    83] <PyQt5.QtCore.QTextStream object at 0x7f4f7766e518>
+2019-10-18 15:32:40,479     INFO [                  main.py              saveAs    83] <PyQt5.QtCore.QTextStream object at 0x7f4015b53518>
+2019-10-18 15:45:40,925     INFO [                  main.py           newWindow    66] <__main__.Example object at 0x7f6ceb628ca8>
+2019-10-18 15:45:49,011     INFO [                  main.py           newWindow    66] <__main__.Example object at 0x7f6ceb628ca8>
+2019-10-18 15:45:51,496     INFO [                  main.py           newWindow    66] <__main__.Example object at 0x7f6ceb628ca8>
+2019-10-18 15:45:52,348     INFO [                  main.py           newWindow    66] <__main__.Example object at 0x7f6ceb628ca8>
+2019-10-18 15:50:36,037     INFO [                  main.py           newWindow    67] <__main__.Example object at 0x7f35a0003ca8>
