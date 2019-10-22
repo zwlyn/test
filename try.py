@@ -1,13 +1,28 @@
-def calc():
-    num1 = input('请输入第一个参数：')
-    num2 = input('请输入第二个参数：')
-    try:
-        answer = float(num1) / float(num2)
-    except ZeroDivisionError as e:
-        print('除数不可以为0')
-    else:                        # 当不走 except 时才走else
-        print(answer)  
+from PyQt5.Widget import *
+from PyQt5.Core import *
+
+class Mcalc(QFrame):
+    def __init__(self):
+        super().__init__()
+        self.initData()
+        self.initUI()
+        self.initConnect()
+
+    def initData(self):
+        pass
+    
+    def initUI(self):
+        layout = QHBoxLayout()
+        btn = QPushButton()
+        layout.addWidget(btn)
+
+        self.setLayout(layout)
+        self.show()
+
+    def initConnect(self):
+        pass
+
 
 
 if __name__ == '__main__':
-    calc()
+    
